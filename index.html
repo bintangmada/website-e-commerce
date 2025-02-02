@@ -66,7 +66,7 @@
             <div id="auth-button">
               <a
                 href="account/login.html"
-                class="btn btn-light"
+                class="btn btn-light px-4 py-2"
                 id="login-button"
               >
                 <i class="bi bi-person"></i> Masuk
@@ -479,8 +479,8 @@
               cartButton.style.display = "none";
             }
 
-            // Redirect ke halaman beranda
-            window.location.href = "/website-e-commerce/index.html";
+            // Redirect ke halaman beranda dengan path relatif
+            window.location.href = "index.html";
           }
         });
       }
@@ -938,6 +938,69 @@
 
       .carousel-indicators {
         z-index: 3;
+      }
+
+      /* Style untuk tombol login */
+      #login-button {
+        font-size: 0.9rem;
+        font-weight: 500;
+        min-width: 100px;
+        padding: 8px 20px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      #login-button i {
+        font-size: 1.1rem;
+      }
+
+      #login-button:hover {
+        background-color: #f8f9fa;
+        transform: translateY(-2px);
+        transition: all 0.3s ease;
+      }
+
+      /* Style untuk tombol profile dropdown */
+      #profile-dropdown .btn {
+        font-size: 0.9rem;
+        font-weight: 500;
+        min-width: 140px;
+        padding: 8px 20px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      #profile-dropdown .btn i {
+        font-size: 1.1rem;
+      }
+
+      #profile-dropdown .btn:hover {
+        background-color: #f8f9fa;
+        transform: translateY(-2px);
+        transition: all 0.3s ease;
+      }
+
+      #profile-dropdown .dropdown-menu {
+        min-width: 200px;
+        padding: 8px 0;
+      }
+
+      #profile-dropdown .dropdown-item {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      #profile-dropdown .dropdown-item i {
+        font-size: 1rem;
+        width: 16px;
+        text-align: center;
       }
     </style>
   </body>
