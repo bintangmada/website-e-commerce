@@ -102,7 +102,7 @@
                     <a
                       href="#"
                       class="dropdown-item text-danger"
-                      onclick="handleLogout(); return false;"
+                      onclick="logout()"
                     >
                       <i class="bi bi-box-arrow-right me-2"></i>Keluar
                     </a>
@@ -352,7 +352,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/js/main.js"></script>
     <script>
-      function handleLogout() {
+      function logout() {
         Swal.fire({
           title: "Apakah Anda yakin?",
           text: "Anda akan keluar dari akun ini!",
@@ -364,25 +364,19 @@
           cancelButtonText: "Batal",
         }).then((result) => {
           if (result.isConfirmed) {
-            // Hapus data user dari localStorage
-            localStorage.removeItem("user");
+            // Hapus semua data user dari localStorage
+            localStorage.clear();
 
-            // Reset tampilan UI
-            document.getElementById("profile-dropdown").classList.add("d-none");
-            document.getElementById("login-button").classList.remove("d-none");
+            // Sembunyikan keranjang
+            const cartButton = document.querySelector(
+              'a[href="cart/index.html"]'
+            );
+            if (cartButton) {
+              cartButton.style.display = "none";
+            }
 
-            // Reset cart count
-            document.getElementById("cart-count").textContent = "0";
-
-            // Tampilkan pesan sukses
-            Swal.fire(
-              "Berhasil Keluar!",
-              "Anda telah keluar dari akun.",
-              "success"
-            ).then(() => {
-              // Redirect ke halaman login
-              window.location.href = "account/login.html";
-            });
+            // Redirect ke halaman beranda
+            window.location.href = "/website-e-commerce/index.html";
           }
         });
       }
