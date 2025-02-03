@@ -13,9 +13,153 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
     />
     <link href="../assets/css/style.css" rel="stylesheet" />
+    <style>
+      @media print {
+        .btn {
+          display: none;
+        }
+
+        .card {
+          border: none;
+        }
+
+        .container {
+          width: 100%;
+          max-width: none;
+          padding: 0;
+        }
+      }
+
+      .cart-icon .nav-link {
+        padding: 8px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+
+      .cart-icon .nav-link:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .cart-count {
+        font-size: 0.7rem;
+        transform: translate(-50%, -50%) !important;
+      }
+
+      .cart-preview {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        border: none;
+        border-radius: 0.5rem;
+      }
+
+      .cart-preview .cart-items-preview {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .cart-item-preview {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .cart-item-preview:last-child {
+        border-bottom: none;
+      }
+
+      .cart-item-preview img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 0.25rem;
+      }
+
+      @media (max-width: 768px) {
+        .cart-preview {
+          position: fixed !important;
+          top: 60px !important;
+          right: 1rem !important;
+          left: 1rem !important;
+          transform: none !important;
+        }
+      }
+    </style>
   </head>
   <body>
+    <!-- Tambahkan ini di awal body -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div
+        id="cartToast"
+        class="toast align-items-center text-white bg-success border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body">
+            <i class="bi bi-check-circle me-2"></i>
+            Produk berhasil ditambahkan ke keranjang!
+          </div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+    </div>
+
     <!-- Navbar (sama seperti index.html, sesuaikan path) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+      <div class="container">
+        <!-- ... existing navbar content ... -->
+
+        <!-- Perbaikan desain cart icon -->
+        <div class="cart-wrapper ms-auto">
+          <div class="cart-icon dropdown">
+            <a
+              href="#"
+              class="nav-link position-relative"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-cart-fill fs-5"></i>
+              <span
+                class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              >
+                0
+                <span class="visually-hidden">items in cart</span>
+              </span>
+            </a>
+
+            <!-- Dropdown Cart Preview -->
+            <div
+              class="dropdown-menu dropdown-menu-end cart-preview p-3"
+              style="min-width: 320px"
+            >
+              <div class="cart-items-preview">
+                <!-- Cart items will be dynamically inserted here -->
+              </div>
+              <div class="cart-summary mt-3 pt-3 border-top">
+                <div class="d-flex justify-content-between mb-3">
+                  <span>Total</span>
+                  <strong class="cart-total">Rp 0</strong>
+                </div>
+                <div class="d-grid gap-2">
+                  <a href="../cart/index.html" class="btn btn-primary">
+                    Lihat Keranjang
+                  </a>
+                  <button class="btn btn-success">Checkout</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
 
     <!-- Products Header -->
     <div class="container mt-5 pt-5">
@@ -121,22 +265,176 @@
 
           <!-- Products Grid -->
           <div class="row g-4" id="products-container">
-            <!-- Products will be loaded here by JavaScript -->
+            <!-- Template card produk yang akan digunakan oleh JavaScript -->
+            <div class="col-md-4 mb-4">
+              <div class="product-card" data-product-id="${product.id}">
+                <img
+                  src="${product.image}"
+                  alt="${product.name}"
+                  class="product-image"
+                />
+                <h5 class="product-title">${product.name}</h5>
+                <p class="product-price" data-price="${product.price}">
+                  Rp ${product.price.toLocaleString('id-ID')}
+                </p>
+                <button
+                  onclick="addToCart(${product.id})"
+                  class="btn btn-primary"
+                >
+                  Tambah ke Keranjang
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Pagination -->
           <nav class="mt-4">
             <ul class="pagination justify-content-center" id="pagination">
-              <!-- Pagination will be generated by JavaScript -->
+              <li class="page-item">
+                <button class="page-link" data-page="prev">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+              </li>
+              <!-- Pagination numbers will be generated by JavaScript -->
+              <li class="page-item">
+                <button class="page-link" data-page="next">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+              </li>
             </ul>
           </nav>
         </div>
       </div>
     </div>
 
-    <!-- Footer (sama seperti index.html) -->
+    <!-- Footer -->
+    <footer class="footer mt-5 py-5">
+      <div class="container">
+        <div class="row g-4">
+          <!-- Brand Section -->
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-brand mb-4">
+              <h4 class="text-gradient mb-3">Toko Kita</h4>
+              <p class="opacity-75">
+                Memberikan produk berkualitas terbaik dengan design modern untuk
+                kebutuhan Anda.
+              </p>
+            </div>
+            <div class="social-links d-flex gap-3">
+              <a
+                href="https://facebook.com/tokokita"
+                target="_blank"
+                class="social-link"
+                title="Facebook"
+                ><i class="bi bi-facebook"></i
+              ></a>
+              <a
+                href="https://instagram.com/tokokita"
+                target="_blank"
+                class="social-link"
+                title="Instagram"
+                ><i class="bi bi-instagram"></i
+              ></a>
+              <a
+                href="https://twitter.com/tokokita"
+                target="_blank"
+                class="social-link"
+                title="Twitter"
+                ><i class="bi bi-twitter-x"></i
+              ></a>
+              <a
+                href="https://linkedin.com/company/tokokita"
+                target="_blank"
+                class="social-link"
+                title="LinkedIn"
+                ><i class="bi bi-linkedin"></i
+              ></a>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="col-lg-2 col-md-6">
+            <h5 class="footer-title">Menu</h5>
+            <ul class="footer-links">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Products</a></li>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="col-lg-3 col-md-6">
+            <h5 class="footer-title">Kontak Kami</h5>
+            <ul class="footer-contact">
+              <li>
+                <div class="icon-box">
+                  <i class="bi bi-geo-alt"></i>
+                </div>
+                <div class="content">
+                  <p>Jl. Contoh No. 123,<br />Jakarta, Indonesia</p>
+                </div>
+              </li>
+              <li>
+                <div class="icon-box">
+                  <i class="bi bi-telephone"></i>
+                </div>
+                <div class="content">
+                  <p>(021) 1234-5678<br />0812-3456-7890</p>
+                </div>
+              </li>
+              <li>
+                <div class="icon-box">
+                  <i class="bi bi-envelope"></i>
+                </div>
+                <div class="content">
+                  <p>info@example.com<br />support@example.com</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="col-lg-3 col-md-6">
+            <h5 class="footer-title">Newsletter</h5>
+            <p class="opacity-75 mb-3">
+              Dapatkan update terbaru dan penawaran spesial.
+            </p>
+            <div class="newsletter-form">
+              <div class="input-group mb-3">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Email address"
+                />
+                <button class="btn btn-primary" type="button">
+                  <i class="bi bi-send"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Copyright -->
+    <div class="copyright">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="mb-0">&copy; 2024 Your Brand. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <a href="#" class="me-3">Privacy Policy</a>
+            <a href="#" class="me-3">Terms of Service</a>
+            <a href="#">FAQ</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/products.js"></script>
+    <script src="../assets/js/cart.js"></script>
   </body>
 </html>

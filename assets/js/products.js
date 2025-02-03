@@ -156,9 +156,19 @@ function setupPagination() {
 function changePage(page) {
   if (page < 1 || page > Math.ceil(currentProducts.length / productsPerPage))
     return;
+
+  // Simpan posisi scroll
+  const currentScroll = window.scrollY;
+
   currentPage = page;
   displayProducts();
   setupPagination();
+
+  // Kembalikan posisi scroll
+  window.scrollTo({
+    top: currentScroll,
+    behavior: "instant",
+  });
 }
 
 // Update product count

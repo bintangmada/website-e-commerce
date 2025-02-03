@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - TokoKita</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link href="../assets/css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Navbar akan di-include -->
+
+    <div class="container mt-5 pt-5">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="../index.html">Beranda</a></li>
+          <li class="breadcrumb-item">
+            <a href="../cart/index.html">Keranjang</a>
+          </li>
+          <li class="breadcrumb-item active">Checkout</li>
+        </ol>
+      </nav>
+
+      <div class="row">
+        <!-- Form Checkout -->
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title mb-4">Informasi Pengiriman</h5>
+              <form id="checkoutForm">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-control" required />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" required />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">No. Telepon</label>
+                    <input type="tel" class="form-control" required />
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Alamat Lengkap</label>
+                    <textarea class="form-control" rows="3" required></textarea>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Provinsi</label>
+                    <select class="form-select" required>
+                      <option value="">Pilih Provinsi</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Kota/Kabupaten</label>
+                    <select class="form-select" required>
+                      <option value="">Pilih Kota</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Kode Pos</label>
+                    <input type="text" class="form-control" required />
+                  </div>
+                </div>
+
+                <h5 class="card-title mb-4 mt-4">Metode Pengiriman</h5>
+                <div class="mb-4">
+                  <div class="form-check mb-2">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="shipping"
+                      value="regular"
+                      checked
+                    />
+                    <label class="form-check-label">
+                      Regular (2-3 hari) - Rp 15.000
+                    </label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="shipping"
+                      value="express"
+                    />
+                    <label class="form-check-label">
+                      Express (1 hari) - Rp 30.000
+                    </label>
+                  </div>
+                </div>
+
+                <h5 class="card-title mb-4">Metode Pembayaran</h5>
+                <div class="mb-4">
+                  <div class="form-check mb-2">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="payment"
+                      value="transfer"
+                      checked
+                    />
+                    <label class="form-check-label"> Transfer Bank </label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="payment"
+                      value="ewallet"
+                    />
+                    <label class="form-check-label"> E-Wallet </label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="payment"
+                      value="cod"
+                    />
+                    <label class="form-check-label"> Cash on Delivery </label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ringkasan Order -->
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title mb-4">Ringkasan Order</h5>
+              <div id="order-items">
+                <!-- Items akan diisi oleh JavaScript -->
+              </div>
+              <hr />
+              <div class="d-flex justify-content-between mb-2">
+                <span>Subtotal</span>
+                <span id="subtotal">Rp 0</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span>Pengiriman</span>
+                <span id="shipping-cost">Rp 15.000</span>
+              </div>
+              <hr />
+              <div class="d-flex justify-content-between mb-4">
+                <strong>Total</strong>
+                <strong id="total">Rp 0</strong>
+              </div>
+              <button class="btn btn-primary w-100" id="payButton">
+                Bayar Sekarang
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer akan di-include -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/checkout.js"></script>
+  </body>
+</html>
